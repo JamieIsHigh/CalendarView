@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         val format = mutableListOf<SimpleDateFormat>(SimpleDateFormat("yyyy"), SimpleDateFormat("MM"), SimpleDateFormat("dd"))
         var today = mutableListOf<Int>(format[0].format(Date()).toInt(),format[1].format(Date()).toInt() -1,format[2].format(Date()).toInt());
+        var days = 0
 
         calendarView.setMinDate(Date().time)
         calendarView.setMaxDate(Date().time + 63115200000)
@@ -51,7 +52,16 @@ class MainActivity : AppCompatActivity() {
             } else {
                 wyjazdButton.text = "Ustaw/zmień datę wyjazdu"
                 isWyjazdSetting = false
-                /*maglowek tekst placeholder*/
+                if (isWyjazdSet && isPowrotSet) {
+                    /*days placeholder*/
+                    naglowek.text = "Czas trwania wycieczki: " + days.toString()
+                } else if (!isWyjazdSet && isPowrotSet) {
+                    naglowek.text = "Ustaw date wyjazdu!"
+                } else if (isWyjazdSet && !isPowrotSet) {
+                    naglowek.text = "Ustaw date powrotu!"
+                } else if (!isWyjazdSet && !isPowrotSet) {
+                    naglowek.text = "Ustaw datę wyjazdu i powrotu!"
+                }
             }
         }
         powrotButton.setOnClickListener {
@@ -71,9 +81,9 @@ class MainActivity : AppCompatActivity() {
             dataWybrana[1] = month
             dataWybrana[2] = day
             if (isWyjazdSetting) {
-
+                dataWyjazdu = dataWybrana
             } else if (isPowrotSetting) {
-
+                dataPowrotu = dataWybrana
             }
         }
     }
