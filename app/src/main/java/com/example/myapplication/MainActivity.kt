@@ -36,6 +36,8 @@ class MainActivity : AppCompatActivity() {
         var dataPowrotu = mutableListOf<Int>(0,0,0)
         var dataWybrana = mutableListOf<Int>(0,0,0)
 
+        var roznica = mutableListOf<Int>(0,0,0)
+        var selectedD = 100000000000
 
         val format = mutableListOf<SimpleDateFormat>(SimpleDateFormat("yyyy"), SimpleDateFormat("MM"), SimpleDateFormat("dd"))
         var today = mutableListOf<Int>(format[0].format(Date()).toInt(),format[1].format(Date()).toInt() -1,format[2].format(Date()).toInt());
@@ -53,7 +55,6 @@ class MainActivity : AppCompatActivity() {
                 wyjazdButton.text = "Ustaw/zmień datę wyjazdu"
                 isWyjazdSetting = false
                 if (isWyjazdSet && isPowrotSet) {
-                    /*days placeholder*/
                     naglowek.text = "Czas trwania wycieczki: " + days.toString()
                 } else if (!isWyjazdSet && isPowrotSet) {
                     naglowek.text = "Ustaw date wyjazdu!"
@@ -76,14 +77,22 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        calendarView.setOnDateChangeListener { view, year, month, day ->
+        calendarView.setOnDateChangeListener { view, year, month, day ->/*
             dataWybrana[0] = year
             dataWybrana[1] = month
-            dataWybrana[2] = day
+            dataWybrana[2] = day*/
+            selectedD = calendarView.date
+            naglowek.text = selectedD.toString()
             if (isWyjazdSetting) {
                 dataWyjazdu = dataWybrana
+                wyjazd.text = "Data wyjazdu: " + dataWyjazdu.toString()
+                isWyjazdSetting = false
+                wyjazdButton.text = "Ustaw/zmień datę wyjazdu"
             } else if (isPowrotSetting) {
                 dataPowrotu = dataWybrana
+                powrot.text = "Data powrotu: " + dataPowrotu.toString()
+                isPowrotSetting = false
+                powrotButton.text = "Ustaw/zmień datę powrotu"
             }
         }
     }
