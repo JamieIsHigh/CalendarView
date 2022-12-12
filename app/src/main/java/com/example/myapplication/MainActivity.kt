@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
         var isWyjazdSetting = false
         var isPowrotSetting = false
 
-        var dataWyjazdu = 1000000000000
-        var dataPowrotu = 1000000000000
+        var dataWyjazdu = mutableListOf<Int>(0,0,0)
+        var dataPowrotu = mutableListOf<Int>(0,0,0)
         var dataWybrana = mutableListOf<Int>(0,0,0)
 
         var roznica: Long = 1000000000000
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         val format = mutableListOf<SimpleDateFormat>(SimpleDateFormat("yyyy"), SimpleDateFormat("MM"), SimpleDateFormat("dd"))
         var today = mutableListOf<Int>(format[0].format(Date()).toInt(),format[1].format(Date()).toInt() -1,format[2].format(Date()).toInt());
-        var days = 1000000000000
+        var days = 10
 
         calendarView.setMinDate(Date().time)
         calendarView.setMaxDate(Date().time + 63115200000)
@@ -51,8 +51,7 @@ class MainActivity : AppCompatActivity() {
         fun liczenieDni() {
             if (isWyjazdSet && isPowrotSet) {
                 naglowek.text = ""
-                roznica = (dataPowrotu - dataWyjazdu).toLong()
-                days = roznica/86400000
+                days = (((dataPowrotu[0] - dataWyjazdu[0]/*31556952000*/) + (dataPowrotu[1] - dataWyjazdu[1] /* 2629746000*/) + (dataPowrotu[2] - dataWyjazdu[2] /* 86400000*/))/*86400000*/)
                 dni.text = "Czas trwania wycieczki: " + days.toString() + " dni"
             } else if (!isWyjazdSet && isPowrotSet) {
                 naglowek.text = "Ustaw date wyjazdu!"
@@ -86,11 +85,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        calendarView.setOnDateChangeListener { view, year, month, day ->
-
-            selectedD = calendarView.getDate()
+        calendarView.setOnDateChangeListener { calendarView, i, i2, i3 ->
+            dataWybrana[0] = i
+            dataWybrana[1] = i2
+            dataWybrana[2] = i3
+            /*selectedD = calendarView.getDate()*/
             if (isWyjazdSetting) {
-                dataWyjazdu = selectedD
+                dataWyjazdu = dataWybrana
                 wyjazd.text = "Data wyjazdu: " + dataWyjazdu.toString()
                 isWyjazdSetting = false
                 wyjazdButton.text = "Ustaw/zmień datę wyjazdu"
@@ -98,13 +99,12 @@ class MainActivity : AppCompatActivity() {
                 liczenieDni()
 
             } else if (isPowrotSetting) {
-                dataPowrotu = selectedD
+                dataPowrotu = dataWybrana
                 powrot.text = "Data powrotu: " + dataPowrotu.toString()
                 isPowrotSetting = false
                 powrotButton.text = "Ustaw/zmień datę powrotu"
                 isPowrotSet = true
                 liczenieDni()
-
             }
         }
     }
