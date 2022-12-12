@@ -7,6 +7,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
 import java.util.*
+import android.provider.ContactsContract.Data
+import android.view.View
+import androidx.core.view.get
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import java.util.Date
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,8 +32,9 @@ class MainActivity : AppCompatActivity() {
         var isWyjazdSetting = false
         var isPowrotSetting = false
 
-        var dataWyjazdu = 1000000000
-        var dataPowrotu = 1000000000
+        var dataWyjazdu = mutableListOf<Int>(0,0,0)
+        var dataPowrotu = mutableListOf<Int>(0,0,0)
+        var dataWybrana = mutableListOf<Int>(0,0,0)
 
 
         val format = mutableListOf<SimpleDateFormat>(SimpleDateFormat("yyyy"), SimpleDateFormat("MM"), SimpleDateFormat("dd"))
@@ -43,6 +51,29 @@ class MainActivity : AppCompatActivity() {
             } else {
                 wyjazdButton.text = "Ustaw/zmień datę wyjazdu"
                 isWyjazdSetting = false
+                /*maglowek tekst placeholder*/
+            }
+        }
+        powrotButton.setOnClickListener {
+            if (!isPowrotSetting) {
+                naglowek.text = "Wybierz na kalendarzu datę powrotu: "
+                powrotButton.text = "Anuluj"
+                isPowrotSetting = true
+            } else {
+                powrotButton.text = "Ustaw/zmień datę powrotu"
+                isPowrotSetting = false
+                /*maglowek tekst placeholder*/
+            }
+        }
+
+        calendarView.setOnDateChangeListener { view, year, month, day ->
+            dataWybrana[0] = year
+            dataWybrana[1] = month
+            dataWybrana[2] = day
+            if (isWyjazdSetting) {
+
+            } else if (isPowrotSetting) {
+
             }
         }
     }
