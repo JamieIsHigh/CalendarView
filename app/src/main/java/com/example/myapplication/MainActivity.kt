@@ -10,6 +10,7 @@ import java.util.*
 import android.provider.ContactsContract.Data
 import android.view.View
 import androidx.core.view.get
+import java.sql.Time
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         val wyjazd = findViewById<TextView>(R.id.wyjazd)
         val powrot = findViewById<TextView>(R.id.powrot)
         val naglowek = findViewById<TextView>(R.id.naglowek)
+        val dni = findViewById<TextView>(R.id.roznica)
 
         var isWyjazdSet = false
         var isPowrotSet = false
@@ -51,6 +53,7 @@ class MainActivity : AppCompatActivity() {
                 naglowek.text = ""
                 roznica = (dataPowrotu - dataWyjazdu).toLong()
                 days = roznica/86400000
+                dni.text = "Czas trwania wycieczki: " + days.toString() + " dni"
             } else if (!isWyjazdSet && isPowrotSet) {
                 naglowek.text = "Ustaw date wyjazdu!"
             } else if (isWyjazdSet && !isPowrotSet) {
@@ -83,26 +86,25 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        calendarView.setOnDateChangeListener { view, year, month, day ->/*
-            dataWybrana[0] = year
-            dataWybrana[1] = month
-            dataWybrana[2] = day*/
-            selectedD = calendarView.date
-            naglowek.text = selectedD.toString()
+        calendarView.setOnDateChangeListener { view, year, month, day ->
+
+            selectedD = calendarView.getDate()
             if (isWyjazdSetting) {
                 dataWyjazdu = selectedD
                 wyjazd.text = "Data wyjazdu: " + dataWyjazdu.toString()
                 isWyjazdSetting = false
                 wyjazdButton.text = "Ustaw/zmień datę wyjazdu"
-                liczenieDni()
                 isWyjazdSet = true
+                liczenieDni()
+
             } else if (isPowrotSetting) {
                 dataPowrotu = selectedD
                 powrot.text = "Data powrotu: " + dataPowrotu.toString()
                 isPowrotSetting = false
                 powrotButton.text = "Ustaw/zmień datę powrotu"
-                liczenieDni()
                 isPowrotSet = true
+                liczenieDni()
+
             }
         }
     }
