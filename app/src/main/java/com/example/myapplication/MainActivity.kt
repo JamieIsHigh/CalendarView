@@ -43,15 +43,18 @@ class MainActivity : AppCompatActivity() {
 
         val format = mutableListOf<SimpleDateFormat>(SimpleDateFormat("yyyy"), SimpleDateFormat("MM"), SimpleDateFormat("dd"))
         var today = mutableListOf<Int>(format[0].format(Date()).toInt(),format[1].format(Date()).toInt() -1,format[2].format(Date()).toInt());
-        var days = 10
+        var days = 100000000000000
 
         calendarView.setMinDate(Date().time)
         calendarView.setMaxDate(Date().time + 63115200000)
 
         fun liczenieDni() {
+            isWyjazdSetting = false
+            isPowrotSetting = false
             if (isWyjazdSet && isPowrotSet) {
+                if (dataPowrotu[2]<dataWyjazdu[2] && dataPowrotu[1]<=dataWyjazdu[1] && dataPowrotu[0]<=dataWyjazdu[0])
                 naglowek.text = ""
-                days = (((dataPowrotu[0] - dataWyjazdu[0]/*31556952000*/) + (dataPowrotu[1] - dataWyjazdu[1] /* 2629746000*/) + (dataPowrotu[2] - dataWyjazdu[2] /* 86400000*/))/*86400000*/)
+                days = ((((dataPowrotu[0] - dataWyjazdu[0])*31556952000) + ((dataPowrotu[1] - dataWyjazdu[1]) * 2629746000) + ((dataPowrotu[2] - dataWyjazdu[2])* 86400000))/86400000)
                 dni.text = "Czas trwania wycieczki: " + days.toString() + " dni"
             } else if (!isWyjazdSet && isPowrotSet) {
                 naglowek.text = "Ustaw date wyjazdu!"
@@ -91,15 +94,21 @@ class MainActivity : AppCompatActivity() {
             dataWybrana[2] = i3
             /*selectedD = calendarView.getDate()*/
             if (isWyjazdSetting) {
-                dataWyjazdu = dataWybrana
-                wyjazd.text = "Data wyjazdu: " + dataWyjazdu.toString()
                 isWyjazdSetting = false
+                dataWyjazdu[0] = dataWybrana[0]
+                dataWyjazdu[1] = dataWybrana[1]
+                dataWyjazdu[2] = dataWybrana[2]
+                wyjazd.text = "Data wyjazdu: " + dataWyjazdu.toString()
+                powrot.text = "Data powrotu: " + dataPowrotu.toString()
                 wyjazdButton.text = "Ustaw/zmień datę wyjazdu"
                 isWyjazdSet = true
                 liczenieDni()
 
             } else if (isPowrotSetting) {
-                dataPowrotu = dataWybrana
+                dataPowrotu[0] = dataWybrana[0]
+                dataPowrotu[1] = dataWybrana[1]
+                dataPowrotu[2] = dataWybrana[2]
+                wyjazd.text = "Data wyjazdu: " + dataWyjazdu.toString()
                 powrot.text = "Data powrotu: " + dataPowrotu.toString()
                 isPowrotSetting = false
                 powrotButton.text = "Ustaw/zmień datę powrotu"
