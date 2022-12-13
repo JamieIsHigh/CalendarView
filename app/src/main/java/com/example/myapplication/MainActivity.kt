@@ -52,10 +52,14 @@ class MainActivity : AppCompatActivity() {
             isWyjazdSetting = false
             isPowrotSetting = false
             if (isWyjazdSet && isPowrotSet) {
-                if (dataPowrotu[2]<dataWyjazdu[2] && dataPowrotu[1]<=dataWyjazdu[1] && dataPowrotu[0]<=dataWyjazdu[0])
-                naglowek.text = ""
-                days = ((((dataPowrotu[0] - dataWyjazdu[0])*31556952000) + ((dataPowrotu[1] - dataWyjazdu[1]) * 2629746000) + ((dataPowrotu[2] - dataWyjazdu[2])* 86400000))/86400000)
-                dni.text = "Czas trwania wycieczki: " + days.toString() + " dni"
+                if (dataPowrotu[2]<dataWyjazdu[2] && dataPowrotu[1]<=dataWyjazdu[1] && dataPowrotu[0]<=dataWyjazdu[0]) {
+                    dni.text = "Wycieczka nie może kończyć się przed jej początkiem!"
+                } else {
+                    naglowek.text = ""
+                    days =
+                        ((((dataPowrotu[0] - dataWyjazdu[0]) * 31556952000) + ((dataPowrotu[1] - dataWyjazdu[1]) * 2629746000) + ((dataPowrotu[2] - dataWyjazdu[2]) * 86400000)) / 86400000)
+                    dni.text = "Czas trwania wycieczki: " + days.toString() + " dni"
+                }
             } else if (!isWyjazdSet && isPowrotSet) {
                 naglowek.text = "Ustaw date wyjazdu!"
             } else if (isWyjazdSet && !isPowrotSet) {
@@ -98,8 +102,8 @@ class MainActivity : AppCompatActivity() {
                 dataWyjazdu[0] = dataWybrana[0]
                 dataWyjazdu[1] = dataWybrana[1]
                 dataWyjazdu[2] = dataWybrana[2]
-                wyjazd.text = "Data wyjazdu: " + dataWyjazdu.toString()
-                powrot.text = "Data powrotu: " + dataPowrotu.toString()
+                wyjazd.text = "Data wyjazdu: " + dataWyjazdu[2].toString() + " " + dataWyjazdu[1].toString() + " " + dataWyjazdu[0].toString()
+                powrot.text = "Data powrotu: " + dataPowrotu[2].toString() + " " + dataPowrotu[1].toString() + " " + dataPowrotu[0].toString()
                 wyjazdButton.text = "Ustaw/zmień datę wyjazdu"
                 isWyjazdSet = true
                 liczenieDni()
@@ -108,8 +112,8 @@ class MainActivity : AppCompatActivity() {
                 dataPowrotu[0] = dataWybrana[0]
                 dataPowrotu[1] = dataWybrana[1]
                 dataPowrotu[2] = dataWybrana[2]
-                wyjazd.text = "Data wyjazdu: " + dataWyjazdu.toString()
-                powrot.text = "Data powrotu: " + dataPowrotu.toString()
+                wyjazd.text = "Data wyjazdu: " + dataWyjazdu[2].toString() + " " + dataWyjazdu[1].toString() + " " + dataWyjazdu[0].toString()
+                powrot.text = "Data powrotu: " + dataPowrotu[2].toString() + " " + dataPowrotu[1].toString() + " " + dataPowrotu[0].toString()
                 isPowrotSetting = false
                 powrotButton.text = "Ustaw/zmień datę powrotu"
                 isPowrotSet = true
