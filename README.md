@@ -14,7 +14,7 @@ Interfejs w zależności od rozmiaru wyświetlacza zwiększa bądź zmniejsza pr
 - Aplikacj anie wykonuje żadnych dodatkowych działań po jej zamknięciu
 
 3. Wybór środowiska:
-Aplikacja wykonana w android studio na systemy Android
+Aplikacja wykonana w programie Android Studio na systemy Android
 
 4. Weryfikacja i testowanie:
 Aplikacja testowana na urządzeniach z systemami Android 12 oraz Android 11
